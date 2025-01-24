@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/Sakurao_o/Sakurao_o/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/Sakurao_o/Sakurao_o/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/Sakurao_o/Sakurao_o/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/Sakurao_o/Sakurao_o/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/Sakurao_o/Sakurao_o/css/main.css">
+
+
+<link rel="stylesheet" href="/Sakurao_o/Sakurao_o/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/Sakurao_o/Sakurao_o/lib/pace/pace-theme-flat-top.min.css">
+  <script src="/Sakurao_o/Sakurao_o/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gitee.com","root":"/Sakurao_o/Sakurao_o/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"enable":true,"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="前言       ~~~~~~      前不久参加了公司部门年会，几位领导在会上讲了许多，其中令我印象深刻的当属提到的AI。“目前AI这么盛行，我们">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于如何使用AI的一点心得">
+<meta property="og:url" content="https://gitee.com/Sakurao_o/Sakurao_o/2025/01/20/use-ai/index.html">
+<meta property="og:site_name" content="清莠の博客">
+<meta property="og:description" content="前言       ~~~~~~      前不久参加了公司部门年会，几位领导在会上讲了许多，其中令我印象深刻的当属提到的AI。“目前AI这么盛行，我们">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tse2-mm.cn.bing.net/th/id/OIP-C.yCQauvhHpxfgN4YIJqNVFwHaFa?rs=1&pid=ImgDetMain">
+<meta property="article:published_time" content="2025-01-20T05:26:58.000Z">
+<meta property="article:modified_time" content="2025-01-21T10:43:00.000Z">
+<meta property="article:author" content="清莠">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="DeepSeek">
+<meta property="article:tag" content="Prompt">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tse2-mm.cn.bing.net/th/id/OIP-C.yCQauvhHpxfgN4YIJqNVFwHaFa?rs=1&pid=ImgDetMain">
+
+<link rel="canonical" href="https://gitee.com/Sakurao_o/Sakurao_o/2025/01/20/use-ai/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>关于如何使用AI的一点心得 | 清莠の博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/Sakurao_o/Sakurao_o/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">清莠の博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">I'm here,with you...</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/Sakurao_o/Sakurao_o/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/Sakurao_o/Sakurao_o/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/Sakurao_o/Sakurao_o/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/Sakurao_o/Sakurao_o/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gitee.com/Sakurao_o/Sakurao_o/2025/01/20/use-ai/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Sakurao_o/Sakurao_o/images/avatar.png">
+      <meta itemprop="name" content="清莠">
+      <meta itemprop="description" content="一直以来我们都是以自我为中心观察这个世界，只能看到我眼里的世界，看不到世界眼里的我，爱让我们第一次在别 人身上看到自己，一是理想的自己，二是真实的自己">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="清莠の博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于如何使用AI的一点心得
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-01-20 13:26:58" itemprop="dateCreated datePublished" datetime="2025-01-20T13:26:58+08:00">2025-01-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-21 18:43:00" itemprop="dateModified" datetime="2025-01-21T18:43:00+08:00">2025-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/Sakurao_o/Sakurao_o/categories/%E6%96%87%E7%AB%A0/" itemprop="url" rel="index"><span itemprop="name">文章</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/Sakurao_o/Sakurao_o/categories/%E6%96%87%E7%AB%A0/%E5%8E%9F%E5%88%9B/" itemprop="url" rel="index"><span itemprop="name">原创</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h3>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>      </mtext></mrow><annotation encoding="application/x-tex">~~~~~~</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span></span></span></span>前不久参加了公司部门年会，几位领导在会上讲了许多，其中令我印象深刻的当属提到的AI。“目前AI这么盛行，我们<span id="more"></span>公司作为一家科技型的公司，更应该把AI作为一种生产工具结合到实际的工作中。”一位领导如是说道。很久之前，就听说了了AI-一种21世纪的革命性产物，我一点也不怀疑它将会颠覆人们的生活方式。那时我对AI大模型的认识还停留在Chat-GPT上，对国内的AI大模型不甚了了。后来架构部的同事谈到了<img src="https://tse2-mm.cn.bing.net/th/id/OIP-C.yCQauvhHpxfgN4YIJqNVFwHaFa?rs=1&pid=ImgDetMain" width="3%" style="display: inline;vertical-align: middle;"> <a target="_blank" rel="noopener" href="https://chat.deepseek.com"><strong>DeepSeek</strong></a>-浙江杭州某公司的AI大模型。<br />
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>      </mtext></mrow><annotation encoding="application/x-tex">~~~~~~</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span></span></span></span>最近公司业务部正在考虑使用AI协助员工完成部分工作。需求之一便是让AI扮演客户，以此让新职场客服熟悉销售话术。第一时间就想到了使用DeepSeek模型。在练习的过程中，也逐渐了解到<em>prompt</em>的概念、基本使用方法，同时也对AI的交互方式有了一点心得。</p>
+<h3 id="具体内容如下"><a class="markdownIt-Anchor" href="#具体内容如下"></a> 具体内容如下:</h3>
+<ul>
+<li>与AI的对话过程中，AI会收对话历史内容并以此优化生成的内容，以确保输出的内容更符合用户的习惯（在不关闭会话的前提下）。</li>
+<li>与AI对话的过程也起到训练AI的作用，即该过程符合奖惩机制。适当地告知AI当前生成的回答是否符合预期，以此让AI更加理解用户的需求，优化输出内容</li>
+<li>同上点，使用正向的、积极的、肯定性的（不要告诉让AI不去干什么，而是直接告诉它应该干什么）用语，与AI<em>礼貌</em>的进行沟通，会收获更好的效果</li>
+</ul>
+<hr />
+<h3 id="关于prompt提示词的巧用"><a class="markdownIt-Anchor" href="#关于prompt提示词的巧用"></a> 关于prompt(提示词)的巧用：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">写一篇关于安抚偏远山区儿童的短文</span><br><span class="line">上下文：为偏远山区的儿童写一篇情感文章，目的是提供情感支持和鼓励。</span><br><span class="line">目标：写一篇能够安抚和鼓励孩子们的文章，让他们感受到外界的关爱。</span><br><span class="line">风格：模仿知名主持人方琼的风格。</span><br><span class="line">语调：文章应该充满同情心，传达出理解和支持的情感。</span><br><span class="line">受众：文章面向6到12岁的偏远山区儿童，他们可能缺乏教育资源和情感支持。</span><br><span class="line">响应：文章应该以故事的形式讲述，包含富有想象力的元素，并在末尾提出积极的行动呼吁。</span><br></pre></td></tr></table></figure>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>      </mtext></mrow><annotation encoding="application/x-tex">~~~~~~</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span></span></span></span>这里先引用一则网络上流行的<em>prompt</em>版式,如果涉及到更加复杂的提示词，可能要借助文本。上传文本后，让AI根据相应的规则执行。<br />
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>      </mtext></mrow><annotation encoding="application/x-tex">~~~~~~</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span></span></span></span>当然，最开始的效果并非如预期那般，可能不近人意，也可能完全偏离了大纲。重要的如何让AI准确的识别你的意图。总的来说，可以参考<a href="###%E5%85%B7%E4%BD%93%E5%86%85%E5%AE%B9%E5%A6%82%E4%B8%8B:">总则</a>逐步调整<em>prompt</em>。大多数情况下，让AI根据历史内容自动调整比自己手动调整<em>prompt</em>效果更好。每次调整完成后，可以让AI根据最新的规则生成结果，预览结果，确保当前调试步骤达到或者接近预期效果。如上文所说，当AI做得较好时，基于它一些正向的鼓励吧。使用AI需要铭记的中心思想是”<em>它并不是全能的，把AI当作一个拥有百宝箱的新学徒</em>”。<br />
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>      </mtext></mrow><annotation encoding="application/x-tex">~~~~~~</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span><span class="mspace nobreak"> </span></span></span></span>除此之外，还有一些细枝末节的地方需要注意。（至少）在DeepSeek时，每个对话的历史历史内容会一定程度上地影响当前生成的内容。若要确保内容达到预期效果，新开一个对话是一个好做法。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/Sakurao_o/Sakurao_o/tags/AI/" rel="tag"># AI</a>
+              <a href="/Sakurao_o/Sakurao_o/tags/DeepSeek/" rel="tag"># DeepSeek</a>
+              <a href="/Sakurao_o/Sakurao_o/tags/Prompt/" rel="tag"># Prompt</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/Sakurao_o/Sakurao_o/2025/01/09/anime-recommend/" rel="prev" title="【动漫】推荐">
+      <i class="fa fa-chevron-left"></i> 【动漫】推荐
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text"> 前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E5%86%85%E5%AE%B9%E5%A6%82%E4%B8%8B"><span class="nav-number">2.</span> <span class="nav-text"> 具体内容如下:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Eprompt%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%9A%84%E5%B7%A7%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text"> 关于prompt(提示词)的巧用：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="清莠"
+      src="/Sakurao_o/Sakurao_o/images/avatar.png">
+  <p class="site-author-name" itemprop="name">清莠</p>
+  <div class="site-description" itemprop="description">一直以来我们都是以自我为中心观察这个世界，只能看到我眼里的世界，看不到世界眼里的我，爱让我们第一次在别 人身上看到自己，一是理想的自己，二是真实的自己</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/Sakurao_o/Sakurao_o/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/Sakurao_o/Sakurao_o/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/Sakurao_o/Sakurao_o/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/FavorLvzi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;FavorLvzi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ymy9104@gmail.com" title="E-Mail → mailto:ymy9104@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ymy0213@qq.com" title="QQ → mailto:ymy0213@qq.com" rel="noopener" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://axutongxue.onrender.com/" title="https:&#x2F;&#x2F;axutongxue.onrender.com" rel="noopener" target="_blank">阿虚の储物间</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://store.steampowered.com/" title="https:&#x2F;&#x2F;store.steampowered.com" rel="noopener" target="_blank">本物のSteam</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+      
+      <div id="music163player">
+          <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=280 height=86 src="//music.163.com/outchain/player?type=2&id=1321441450&auto=0&height=66">
+          </iframe>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">清莠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/Sakurao_o/Sakurao_o/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/Sakurao_o/Sakurao_o/lib/anime.min.js"></script>
+  <script src="/Sakurao_o/Sakurao_o/lib/velocity/velocity.min.js"></script>
+  <script src="/Sakurao_o/Sakurao_o/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/Sakurao_o/Sakurao_o/js/utils.js"></script>
+
+<script src="/Sakurao_o/Sakurao_o/js/motion.js"></script>
+
+
+<script src="/Sakurao_o/Sakurao_o/js/schemes/muse.js"></script>
+
+
+<script src="/Sakurao_o/Sakurao_o/js/next-boot.js"></script>
+
+
+  <script defer src="/Sakurao_o/Sakurao_o/lib/three/three.min.js"></script>
+    <script defer src="/Sakurao_o/Sakurao_o/lib/three/three-waves.min.js"></script>
+    <script defer src="/Sakurao_o/Sakurao_o/lib/three/canvas_lines.min.js"></script>
+    <script defer src="/Sakurao_o/Sakurao_o/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/Sakurao_o/Sakurao_o/live2dw/lab/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lab/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/Sakurao_o/Sakurao_o/live2dw/assets/shizuku.model.json"},"display":{"position":"right","hOffset":360},"mobile":{"show":true},"react":{"opacity":0.9},"log":false});</script></body>
+</html>

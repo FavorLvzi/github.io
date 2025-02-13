@@ -185,6 +185,192 @@
 
 <div class="post">
 
+    <a href="/2025/02/13/prometheus-grafana/">
+        <h2>
+            Prometheus、Grafana集成安装
+        </h2>
+    </a>
+
+    <div class="category-and-date">
+
+        
+        <span class="category">
+            <a href="/categories/文章">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" /></span>
+                文章
+            </a>
+        </span>
+        
+
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2025/2/13
+        </span>
+
+    </div>
+
+    <div class="excerpt">
+        <div class="content" v-pre>
+            
+            
+            <h2 id="安装prometheus"><a class="markdownIt-Anchor" href="#安装prometheus"></a> 安装Prometheus</h2>
+<ul>
+<li>设置Prometheus用户(组)，方便后续权限管理<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo groupadd --system prometheus</span><br><span class="line">sudo useradd -s /sbin/nologin --system -g prometheus prometheus </span><br></pre></td></tr></table></figure>
+</li>
+<li>创建存储目录、下载Prometheus二进制文件 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo mkdir /var/lib/prometheus</span><br><span class="line">for i in rules rules.d files_sd; do sudo mkdir -p /etc/prometheus/$&#123;i&#125;; done</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> #由于Github被墙，这里使用了代理地址进行下载</span><br><span class="line"> wget https://gh.llkk.cc/https://github.com/prometheus/prometheus/releases/download/v3.2.0-rc.1/prometheus-3.2.0-rc.1.linux-amd64.tar.gz   </span><br><span class="line"> #提取文件</span><br><span class="line"> tar xvf prometheus*.tar.gz</span><br><span class="line"> #将二进制文件移动到 _/usr/local/bin、Prometheus 配置模板移动到/etc</span><br><span class="line"> sudo mv prometheus promtool /usr/local/bin/</span><br><span class="line"> sudo mv prometheus.yml /etc/prometheus/prometheus.yml</span><br><span class="line"> #检查安装版本</span><br><span class="line"> root@ubuntu2204:~# prometheus --version</span><br><span class="line"> prometheus, version 3.2.0-rc.1 (branch: HEAD, revision:      d80c58cade61a580aaae74e71baf09bc76c45a7a)</span><br><span class="line">build user:       root@c3d1c77e2a94</span><br><span class="line">build date:       20250204-12:33:45</span><br><span class="line">go version:       go1.23.5</span><br><span class="line">platform:         linux/amd64</span><br><span class="line">tags:             netgo,builtinassets,stringlabels</span><br></pre></td></tr></table></figure>
+</li>
+<li>更改目录权限<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo chown -R prometheus:prometheus /var/lib/prometheus/</span><br><span class="line">sudo chown -R prometheus:prometheus /etc/prometheus/</span><br></pre></td></tr></table></figure>
+</li>
+<li>为Prometheus创建systemd服务单元文件，方便后续使用systemctl管理服务 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/systemd/system/prometheus.service&lt;&lt;EOF </span><br><span class="line">[Unit] Description=Prometheus Documentation=https://prometheus.io/docs/introduction/overview/ </span><br><span class="line">Wants=network-online.target After=network-online.target [Service] </span><br><span class="line">Type=simple </span><br><span class="line">User=prometheus </span><br><span class="line">Group=prometheus </span><br><span class="line">ExecReload=/bin/kill -HUP \$MAINPID </span><br><span class="line">ExecStart=/usr/local/bin/prometheus \ </span><br><span class="line">  --config.file=/etc/prometheus/prometheus.yml \</span><br><span class="line">  --storage.tsdb.path=/var/lib/prometheus \</span><br><span class="line">  --web.listen-address=0.0.0.0:9090 \ </span><br><span class="line">  --web.external-url= </span><br><span class="line">SyslogIdentifier=prometheus </span><br><span class="line">Restart=always </span><br><span class="line">[Install] </span><br><span class="line">WantedBy=multi-user.target </span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+</li>
+<li>重启守护进程与服务<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload </span><br><span class="line">sudo systemctl enable prometheus</span><br><span class="line">sudo systemctl start prometheus </span><br></pre></td></tr></table></figure>
+</li>
+<li>最后检查Prometheus服务状态，出现下图页面即可大功告成，访问localhost:9090看看吧<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> root@ubuntu2204:~# systemctl status prometheus</span><br><span class="line">● prometheus.service - Prometheus</span><br><span class="line">   Loaded: loaded (/etc/systemd/system/prometheus.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Thu 2025-02-13 12:39:15 CST; 10s ago</span><br><span class="line">     Docs: https://prometheus.io/docs/introduction/overview/</span><br><span class="line"> Main PID: 46615 (prometheus)</span><br><span class="line">    Tasks: 9 (limit: 4607)</span><br><span class="line">   Memory: 18.8M</span><br><span class="line">      CPU: 142ms</span><br><span class="line">   CGroup: /system.slice/prometheus.service</span><br><span class="line">           └─46615 /usr/local/bin/prometheus --config.file=/etc/prometheus/prometheus.yml --storag&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="安装grafana"><a class="markdownIt-Anchor" href="#安装grafana"></a> 安装Grafana</h2>
+<ul>
+<li>安装必要依赖<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt install gnupg2 apt-transport-https software-properties-common  wget</span><br></pre></td></tr></table></figure>
+</li>
+<li>为 Grafana 存储库添加 GPG 密钥<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget  -q  -O - https://packages.grafana.com/gpg.key &gt; grafana.key</span><br><span class="line">cat grafana.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/grafana.gpg &gt; /dev/null  # 将key文件转换为.gpg格式</span><br></pre></td></tr></table></figure>
+</li>
+<li>添加Grafana OSS<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">echo  &#x27;deb [signed-by=/etc/apt/trusted.gpg.d/grafana.gpg] https://packages.grafana.com/oss/deb stable main&#x27; | sudo tee /etc/apt/sources.list.d/grafana.list</span><br></pre></td></tr></table></figure>
+</li>
+<li>更新包并安装Grafana<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install grafana</span><br></pre></td></tr></table></figure>
+</li>
+<li>重启守护进程与服务<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload </span><br><span class="line">sudo systemctl start grafana-server</span><br><span class="line">sudo systemctl enable grafana-server</span><br></pre></td></tr></table></figure>
+</li>
+<li>最后检查Prometheus服务状态，出现下图页面即可大功告成，访问localhost:3000看看吧（默认账号密码均为admin）<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">root@ubuntu2204:~# sudo systemctl status grafana-server</span><br><span class="line">● grafana-server.service - Grafana instance</span><br><span class="line">  Loaded: loaded (/lib/systemd/system/grafana-server.service; enabled; vendor preset: enabled)</span><br><span class="line">  Active: active (running) since Thu 2025-02-13 12:59:47 CST; 9s ago</span><br><span class="line">    Docs: http://docs.grafana.org</span><br><span class="line">Main PID: 48027 (grafana)</span><br><span class="line">   Tasks: 17 (limit: 4607)</span><br><span class="line">  Memory: 154.1M</span><br><span class="line">     CPU: 4.647s</span><br><span class="line">  CGroup: /system.slice/grafana-server.service</span><br><span class="line">          └─48027 /usr/share/grafana/bin/grafana server --config=/etc/grafana/grafana.ini --pidfi&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="将node_exporter添加到prometheus"><a class="markdownIt-Anchor" href="#将node_exporter添加到prometheus"></a> 将node_exporter添加到Prometheus</h2>
+<p>注：<em>这里默认(<s>因为太懒了</s>)安装了node_exporter，具体流程参考<a target="_blank" rel="noopener" href="https://cn.linux-console.net/?p=30799">此处</a></em></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scrape_configs:</span><br><span class="line">  # The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span><br><span class="line">  - job_name: &quot;prometheus&quot;</span><br><span class="line">    # metrics_path defaults to &#x27;/metrics&#x27;</span><br><span class="line">    # scheme defaults to &#x27;http&#x27;.</span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [&quot;localhost:9090&quot;]</span><br><span class="line">  # 例子  </span><br><span class="line">  - job_name: &quot;huosan_host_node_exporter&quot;</span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [&quot;192.168.11.***:****&quot;,&quot;192.168.11.***:****&quot;,&quot;192.168.11.***:****&quot;,&quot;192.168.11.***:****&quot;]</span><br></pre></td></tr></table></figure>
+<h2 id="将grafana作为数据源添加到prometheus"><a class="markdownIt-Anchor" href="#将grafana作为数据源添加到prometheus"></a> 将Grafana作为数据源添加到Prometheus</h2>
+<p>略(<s>因为太懒了</s>)，具体流程参考<a target="_blank" rel="noopener" href="https://cn.linux-console.net/?p=30799">此处</a></p>
+<p>参考来源：<br />
+<a target="_blank" rel="noopener" href="https://cn.linux-console.net/?p=21237">在Ubuntu 22.04|20.04|18.04上安装Prometheus服务器|</a><br />
+<a target="_blank" rel="noopener" href="https://cn.linux-console.net/?p=30799">如何在 Ubuntu 22.04 上安装 Grafana 和 Prometheus</a></p>
+
+            
+        </div>
+    </div>
+
+    <div class="post-tags">
+        
+        <span class="icon">
+            <a-icon type="tags" theme="filled" />
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/监控系统" style=color:#016a99>
+                监控系统
+            </a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/Grafana" style=color:#607d8b>
+                Grafana
+            </a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/Prometheus" style=color:#6484be>
+                Prometheus
+            </a>
+        </span>
+        
+    </div>
+
+    <a href="/2025/02/13/prometheus-grafana/ " class="go-post">
+        阅读全文
+    </a>
+</div>
+
+<div class="post">
+
+    <a href="/2025/02/06/yanhua-art/">
+        <h2>
+            烟花的艺术【蔡国强】
+        </h2>
+    </a>
+
+    <div class="category-and-date">
+
+        
+        <span class="category">
+            <a href="/categories/B站">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" /></span>
+                B站
+            </a>
+        </span>
+        
+
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2025/2/6
+        </span>
+
+    </div>
+
+    <div class="excerpt">
+        <div class="content" v-pre>
+            
+            
+            <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ZE4m1X7qN/" title="点击以观看视频">链接</a></p>
+
+            
+        </div>
+    </div>
+
+    <div class="post-tags">
+        
+        <span class="icon">
+            <a-icon type="tags" theme="filled" />
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/蔡国强" style=color:#006674>
+                蔡国强
+            </a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/艺术" style=color:#607d8b>
+                艺术
+            </a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/烟花" style=color:#016a99>
+                烟花
+            </a>
+        </span>
+        
+    </div>
+
+    <a href="/2025/02/06/yanhua-art/ " class="go-post">
+        阅读全文
+    </a>
+</div>
+
+<div class="post">
+
     <a href="/2025/01/20/use-ai/">
         <h2>
             关于如何使用AI的一点心得
@@ -231,21 +417,21 @@
         
         <span class="tag">
             
-            <a href="/tags/AI" style=color:#6484be>
+            <a href="/tags/AI" style=color:#016a99>
                 AI
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/DeepSeek" style=color:#6484be>
+            <a href="/tags/DeepSeek" style=color:#006674>
                 DeepSeek
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/Prompt" style=color:#607d8b>
+            <a href="/tags/Prompt" style=color:#006674>
                 Prompt
             </a>
         </span>
@@ -308,14 +494,14 @@
         
         <span class="tag">
             
-            <a href="/tags/知乎搬运" style=color:#607d8b>
+            <a href="/tags/知乎搬运" style=color:#006674>
                 知乎搬运
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/ACG" style=color:#607d8b>
+            <a href="/tags/ACG" style=color:#006674>
                 ACG
             </a>
         </span>
@@ -364,7 +550,7 @@
 不知何日是归期，<br />
 我如朝露转瞬曦。</p>
 
-    <div id="aplayer-fPXEJLwJ" class="aplayer aplayer-tag-marker meting-tag-marker"
+    <div id="aplayer-SxeiVMPN" class="aplayer aplayer-tag-marker meting-tag-marker"
          data-id="9911211145" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86" data-volume="0.3"
     ></div>
 
@@ -381,7 +567,7 @@
         
         <span class="tag">
             
-            <a href="/tags/国语" style=color:#607d8b>
+            <a href="/tags/国语" style=color:#006674>
                 国语
             </a>
         </span>
@@ -448,21 +634,21 @@
         
         <span class="tag">
             
-            <a href="/tags/ACG" style=color:#016a99>
+            <a href="/tags/ACG" style=color:#006674>
                 ACG
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/CLANNAD" style=color:#016a99>
+            <a href="/tags/CLANNAD" style=color:#006674>
                 CLANNAD
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/团子大家族" style=color:#607d8b>
+            <a href="/tags/团子大家族" style=color:#006674>
                 团子大家族
             </a>
         </span>
@@ -522,7 +708,7 @@
         
         <span class="tag">
             
-            <a href="/tags/知乎搬运" style=color:#016a99>
+            <a href="/tags/知乎搬运" style=color:#607d8b>
                 知乎搬运
             </a>
         </span>
@@ -582,7 +768,7 @@
         
         <span class="tag">
             
-            <a href="/tags/知乎搬运" style=color:#6484be>
+            <a href="/tags/知乎搬运" style=color:#016a99>
                 知乎搬运
             </a>
         </span>
